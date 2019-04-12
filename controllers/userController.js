@@ -26,11 +26,11 @@ exports.userFind = function(req, res){
     
     console.log(element + string);
 
-    var projection = new Object;
-    projection[element] = string;
+    var filter = new Object;
+    filter[element] = string;
 
-    console.log(projection);
-    User.find(projection, (err, users) =>{
+    console.log(filter);
+    User.find(filter, { password: 0 },(err, users) =>{
         if (err) return res.status(500).send({message: `Error al realizar la peticion: ${err}`});
         if(!users) return res.status(404).send({message: `No existen entradas`});
         
