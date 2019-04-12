@@ -24,6 +24,8 @@ exports.userFind = function(req, res){
     let element = req.params.element.toString();
     let string = req.params.string;
     
+    console.log(element + string);
+
     var projection = new Object;
     projection[element] = string;
 
@@ -59,18 +61,27 @@ exports.userAuthenticate = function(req, res){
 exports.userCreate = function(req, res) {
     console.log('POST api/user');
     console.log(req.body);
+    
+    var data = req.body;
 
     let user = new User();
-    user.username = req.body.username;
-    user.password = req.body.password;
+    user.username = data.username;
+    user.password = data.password;
+    user.coredex = data.coredex;
+    user.money = data.money;
+    user.bag = data.bag;
+    user.team = data.team;
 
+
+    console.log(user);
+    
     user.save((err, userStored) =>{
         if (err) res.status(500).send({message:`Error al salvar en la base de datos: ${err} `});
 
         res.status(200).send({user: userStored});
     });
 }
-
+/*
 exports.userUpdate = function(req, res) {
     let userId = req.params.userId;
     let update = req.body;
@@ -83,6 +94,29 @@ exports.userUpdate = function(req, res) {
         res.status(200).send({user: userUpdated});
     });
 }
+*/
+
+exports.userUpdate = function(req, res) {
+    let update = req.body;
+
+    let element = req.params.element.toString();
+    let string = req.params.string;
+
+    console.log(element + string);
+
+    var filter = new Object;
+    filter[element] = string;
+
+
+    console.log(update);
+
+    User.findOneAndUpdate(filter, update, (err, userUpdated) =>{
+        if (err) return res.status(500).send({message: `Error al actualizar el usuario: ${err}`});
+
+        res.status(200).send({user: userUpdated});
+    });
+}
+
 
 exports.userDelete = function(req, res) {
     let userId = req.params.userId;
