@@ -20,7 +20,7 @@ exports.userGet = function(req, res){
     });
 }
 
-exports.userFind = function(req, res){
+exports.userFindList = function(req, res){
     let element = req.params.element.toString();
     let string = req.params.string;
     
@@ -37,6 +37,25 @@ exports.userFind = function(req, res){
         res.status(200).send({users});
     });
 };
+
+exports.userFindOne = function(req, res){
+    let element = req.params.element.toString();
+    let string = req.params.string;
+    
+    console.log(element + string);
+
+    var filter = new Object;
+    filter[element] = string;
+
+    console.log(filter);
+    User.findOne(filter, { password: 0 },(err, users) =>{
+        if (err) return res.status(500).send({message: `Error al realizar la peticion: ${err}`});
+        if(!users) return res.status(404).send({message: `No existen entradas`});
+        
+        res.status(200).send({users});
+    });
+};
+
 
 exports.userAuthenticate = function(req, res){
     let username = req.body.username;

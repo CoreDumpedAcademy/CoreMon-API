@@ -2,8 +2,9 @@ const router = require('express').Router();
 const userController = require('../controllers/userController');
 
 router.get('/', userController.userGetList);
-//router.get('/:userId', userController.userGet);
-router.get('/:element&:string', userController.userFind);
+//router.get('/:userId', userController.userGet);              //not used right now, but may be useful later
+router.get('/list/:element&:string', userController.userFindList);
+router.get('/:element&:string', userController.userFindOne);
 
 router.post('/authenticate', userController.userAuthenticate);
 
