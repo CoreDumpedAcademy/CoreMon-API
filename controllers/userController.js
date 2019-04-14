@@ -48,11 +48,11 @@ exports.userFindOne = function(req, res){
     filter[element] = string;
 
     console.log(filter);
-    User.findOne(filter, { password: 0 },(err, users) =>{
+    User.findOne(filter, { password: 0 },(err, user) =>{
         if (err) return res.status(500).send({message: `Error al realizar la peticion: ${err}`});
-        if(!users) return res.status(404).send({message: `No existen entradas`});
+        if(!user) return res.status(404).send({message: `No existen entradas`});
         
-        res.status(200).send({users});
+        res.status(200).send({user});
     });
 };
 
